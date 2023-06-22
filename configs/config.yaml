@@ -1,0 +1,12 @@
+port: "8080"
+
+db:
+  username: "postgres"
+  host: "localhost"
+  port: "5437"
+  dbname: "postgres" 
+  sslmode: "disable"
+
+static:
+  assets: "./assets/"
+  HTML: "assets/html/"
