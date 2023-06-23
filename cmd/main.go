@@ -4,6 +4,7 @@ import (
 	"os"
 
 	"github.com/dankru/go-cinema"
+	ui "github.com/dankru/go-cinema/UI"
 	"github.com/dankru/go-cinema/pkg/handler"
 	"github.com/dankru/go-cinema/pkg/repository"
 	"github.com/dankru/go-cinema/pkg/service"
@@ -38,7 +39,9 @@ func main() {
 
 	repos := repository.NewRepository(db)
 	services := service.NewService(repos)
-	handlers := handler.NewHandler(services)
+	userInterface := ui.NewUI()
+	handlers := handler.NewHandler(services, userInterface)
+	
 	srv := new(cinema.Server)
 	if err := srv.Run(viper.GetString("port"), handlers.InitRoutes()); err != nil {
 		logrus.Fatal("error occured while running http server: %s", err.Error())

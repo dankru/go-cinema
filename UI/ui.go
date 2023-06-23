@@ -1,7 +1,22 @@
 package ui
 
-type UI struct{}
+import "github.com/gin-gonic/gin"
+
+type UI struct {
+	Authorization
+	Films
+}
+
+type Authorization interface {
+	GetAuthorizationPage(c *gin.Context)
+}
+type Films interface {
+	GetFilmsPage(c *gin.Context)
+}
 
 func NewUI() *UI {
-	return &UI{}
+	return &UI{
+		Authorization: NewUIAuthorizationBrowser(),
+
+	}
 }
