@@ -10,3 +10,5 @@ db:
 static:
   assets: "./assets/"
   HTML: "assets/html/"
+
+localhost: true
