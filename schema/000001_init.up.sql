@@ -18,6 +18,6 @@ CREATE TABLE IF NOT EXISTS film_content
   id serial primary key not null,
   title varchar(255) not null,
   description varchar(255),
-  FOREIGN KEY (id) REFERENCES film (id) ON DELETE CASCADE NOT NULL
+  FOREIGN KEY (id) REFERENCES film (id) ON DELETE CASCADE
 );
 
