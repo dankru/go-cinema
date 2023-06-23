@@ -1,0 +1,55 @@
+<!--_authForm.html-->
+<div class="auth">
+  <div class="auth__container _container">
+    <form onsubmit="return false";>
+      <div class="auth__form">
+        <input class="loginInput input" type="text" id="UserLogin" placeholder="Логин" required />
+        <input
+          class="passwordInput input"
+          type="password"
+          id="UserPassword"
+          placeholder="Пароль"
+          required />
+        <div class="auth__links">
+          <button class="loginBtn button auth__link" type="submit">Войти</button>
+          <button class="registerBtn button auth__link" type="submit">Зарегистрироваться</button>
+        </div>
+      </div>
+    </form>
+    <div class="auth__info">
+      <div class="auth__icon active">
+        <picture
+          ><source srcset="img/infoIcon.webp" type="image/webp" />
+          <img src="img/infoIcon.png" alt="infoIcon"
+        /></picture>
+      </div>
+      <div class="popup-card popup">
+        <div class="popup__overlay">
+          <div class="popup__content">
+            <div class="popup__close-btn">X</div>
+            <div class="title">Заголовок</div>
+            <p class="text">Lorem ipsum dolor sit amet.</p>
+          </div>
+        </div>
+      </div>
+      <div class="text-wrong pwd" style="display: none;">
+        Пароль должен содержать не менее 3 символов, хотя-бы одну цифру и не должен содержать спец-символов кроме "_"
+      </div>
+      <div class="text-wrong log" style="display: none;">
+        Неверный логин или пароль
+      </div>
+      <div class="text-wrong logBad" style="display: none;">
+        Логин должен содержать больше 1 символа и начинаться с латинской буквы
+      </div>
+      <div class="text-good good" style="display: none;">
+        Вы успешно зарегистрировались!
+      </div>
+      <div class="text-wrong somethingBad" style="display: none;">
+        Произошла ошибка на сервере...
+      </div>
+      <div class="text-wrong userExists" style="display: none;">
+        Извините, такой пользователь уже существует
+      </div>
+    </div>
+  </div>
+</div>
