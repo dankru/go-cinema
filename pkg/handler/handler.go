@@ -31,16 +31,21 @@ func (h *Handler) InitRoutes() *gin.Engine {
 		auth.POST("/sign-up", h.signUp)
 		auth.POST("/sign-in", h.signIn)
 	}
+	account := router.Group("/account")
+	{
+		account.GET("/", h.requireAuth, h.userInterface.GetAccountPage)
+		account.GET("/logout", h.requireAuth, h.logout)
+	}
 
 	api := router.Group("/api")
 	{
 		films := api.Group("/films") 
 		{
-				films.POST("/", h.createFilm)
+				films.POST("/", h.requireAuth, h.createFilm)
 				films.GET("/", h.getAllFilms)
 				films.GET("/:id", h.getFilmById)
-				films.PUT("/:id", h.updateFilm)
-				films.DELETE("/:id", h.deleteFilm)
+				films.PUT("/:id", h.requireAuth, h.updateFilm)
+				films.DELETE("/:id", h.requireAuth, h.deleteFilm)
 		}
 	}
 	return router

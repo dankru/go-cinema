@@ -50,3 +50,7 @@ func (h *Handler) signIn(c *gin.Context) {
 	// Change secure to true when deployed 
 	c.SetCookie(authorizationHeader, token, 3600 * 24 * 30, "", "", !viper.GetBool("localhost"), true)
 }
+
+func (h *Handler) logout(c *gin.Context) {
+	c.SetCookie(authorizationHeader, "", -1, "", "", !viper.GetBool("localhost"), true)
+}
