@@ -1,0 +1,28 @@
+{{template "_head.html"}}
+
+  <body>
+    <div class="wrapper">
+      {{ template "_header.html"}}
+      <div class="account">
+        <div class="account__container _container">
+          <div class="account__info">
+            <div class="account__login">Пользователь: <span class="username">{{ .login }}</span></div>
+            <div class="account__statistics"></div>
+          </div>
+          <div class="auth__links">
+            <div class="logoutBtn button">Выйти</div>
+            <div class="deleteBtn button auth__link">Удалить</div>
+          </div>
+        </div>
+      </div>
+      {{ template "_footer.html"}}
+      
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js?_v=20230219205521"></script>
+    <script
+      type="text/javascript"
+      src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+    <script src="../js/app.js"></script>
+    <script src="../js/account.js"></script>
+  </body>
+</html>

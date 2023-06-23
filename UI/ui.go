@@ -9,7 +9,9 @@ type UI struct {
 
 type Authorization interface {
 	GetAuthorizationPage(c *gin.Context)
+	GetAccountPage(c *gin.Context)
 }
+
 type Films interface {
 	GetFilmsPage(c *gin.Context)
 }
@@ -17,6 +19,5 @@ type Films interface {
 func NewUI() *UI {
 	return &UI{
 		Authorization: NewUIAuthorizationBrowser(),
-
 	}
 }
