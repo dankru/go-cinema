@@ -1,0 +1,5 @@
+DROP TABLE IF EXISTS user;
+
+DROP TABLE IF EXISTS film;
+
+DROP TABLE IF EXISTS film_content;
