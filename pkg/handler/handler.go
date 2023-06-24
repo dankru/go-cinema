@@ -42,8 +42,8 @@ func (h *Handler) InitRoutes() *gin.Engine {
 		films := api.Group("/films") 
 		{
 				films.POST("/", h.requireAuth, h.createFilm)
-				films.GET("/", h.getAllFilms)
-				films.GET("/:id", h.getFilmById)
+				films.GET("/", h.getAllFilms, h.userInterface.GetFilmsListPage)
+				films.GET("/:id", h.getFilmById, h.userInterface.GetFilmPage)
 				films.PUT("/:id", h.requireAuth, h.updateFilm)
 				films.DELETE("/:id", h.requireAuth, h.deleteFilm)
 		}

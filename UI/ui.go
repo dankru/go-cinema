@@ -4,7 +4,7 @@ import "github.com/gin-gonic/gin"
 
 type UI struct {
 	Authorization
-	Films
+	Film
 }
 
 type Authorization interface {
@@ -12,12 +12,14 @@ type Authorization interface {
 	GetAccountPage(c *gin.Context)
 }
 
-type Films interface {
-	GetFilmsPage(c *gin.Context)
+type Film interface {
+	GetFilmsListPage(c *gin.Context)
+	GetFilmPage(c *gin.Context)
 }
 
 func NewUI() *UI {
 	return &UI{
 		Authorization: NewUIAuthorizationBrowser(),
+		Film:				   NewUIFilmBrowser(),
 	}
 }

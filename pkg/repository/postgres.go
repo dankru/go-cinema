@@ -10,10 +10,8 @@ import (
 
 const (
 	usersTable = "users"
-	todoListsTable = "todo_lists"
-	usersListsTable = "users_lists"
-	todoItemsTable = "todo_items"
-	listsItemsTable = "lists_items"
+	FilmsTable = "film"
+	FilmContentTable = "film_content"
 )
 
 type Config struct {
