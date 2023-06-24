@@ -1,0 +1,29 @@
+{{ template "_head.html" }}
+<body>
+  {{ template "_header.html" }}
+  <div class="wrapper">
+    <div class="content">
+      <div class="content__container _container">
+        <div class="content__items items">
+          <div class="card">
+            <div class="card__image">
+              <video width="1400" height="600" controls class="videoPlayer">
+                <source src="../assets/video/{{.Content.Video}}" />
+              </video>
+            </div>
+            <div class="emotion card__title">{{.data.Title}}</div>
+            <div class="emotion card__subtitle article">{{.data.Description}}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {{ template "_footer.html" }}
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js?_v=20230131223127"></script>
+    <script
+      type="text/javascript"
+      src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+    <script src="../assets/js/app.js"></script>
+    <script src="../assets/js/film.js"></script>
+</body>

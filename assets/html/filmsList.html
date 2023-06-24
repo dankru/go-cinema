@@ -1,0 +1,30 @@
+{{template "_head.html"}}
+<body>
+  <div class="wrapper">
+    {{template "_header.html"}}
+    <div class="content">
+      <div class="content__container _container">
+        <div class="content__items items">
+          {{ range $_, $e := .data }}
+          <a href="/api/films/{{$e.Id}}" style="text-decoration: none; color: inherit">
+            <div class="card">
+              <div class="card__image"></div>
+              <div class="card__title">{{$e.Title}}</div>
+              <div class="card__subcontainer">
+                <div class="card__statistics"></div>
+              </div>
+            </div>
+          </a>
+          {{ end }}
+        </div>
+      </div>
+    </div>
+    {{template "_footer.html"}}
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.6.1.min.js?_v=20230131223127"></script>
+  <script
+    type="text/javascript"
+    src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+  <script src="../assets/js/app.js"></script>
+</body>
