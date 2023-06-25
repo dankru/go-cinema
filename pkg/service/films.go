@@ -24,3 +24,11 @@ func (s *FilmService) GetAll() ([]cinema.Film, error) {
 func (s *FilmService) GetById(filmId int) (cinema.Film, error) {
 	return s.repo.GetById(filmId)
 }
+
+func (s *FilmService) Update(filmId int, input cinema.UpdateFilmInput) error {
+	return s.repo.Update(filmId, input)
+}
+
+func (s *FilmService) Delete(filmId int) error {
+	return s.repo.Delete(filmId)
+}

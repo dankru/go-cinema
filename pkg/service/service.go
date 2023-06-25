@@ -13,8 +13,10 @@ type Authorization interface {
 
 type Film interface {
 	GetAll() ([]cinema.Film, error)
-	Create(cinema.Film) (int, error)
+	Create(film cinema.Film) (int, error)
 	GetById(filmId int) (cinema.Film, error)
+	Update(filmId int, input cinema.UpdateFilmInput) (error)
+	Delete(filmId int) error
 }
 type Service struct {
 	Authorization
