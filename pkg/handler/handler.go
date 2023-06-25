@@ -25,6 +25,12 @@ func (h *Handler) InitRoutes() *gin.Engine {
 	router.Use(static.Serve("/", static.LocalFile(viper.GetString("static.assets"), false)))
 	router.LoadHTMLGlob(viper.GetString("static.HTML")+"*")
 
+	index := router.Group("/index")
+	{
+		index.GET("/", h.getAllFilms, h.userInterface.GetIndexPage)
+		index.GET("/rules", h.userInterface.GetRulesPage)
+	}
+
 	auth := router.Group("/auth")
 	{
 		auth.GET("/", h.userInterface.GetAuthorizationPage)
@@ -33,7 +39,7 @@ func (h *Handler) InitRoutes() *gin.Engine {
 	}
 	account := router.Group("/account")
 	{
-		account.GET("/", h.requireAuth, h.userInterface.GetAccountPage)
+		account.GET("/", h.requireAuth, h.getUserData, h.userInterface.GetAccountPage)
 		account.GET("/logout", h.requireAuth, h.logout)
 	}
 

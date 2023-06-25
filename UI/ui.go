@@ -5,6 +5,11 @@ import "github.com/gin-gonic/gin"
 type UI struct {
 	Authorization
 	Film
+	Index
+}
+type Index interface {
+	GetIndexPage(c *gin.Context)
+	GetRulesPage(c *gin.Context)
 }
 
 type Authorization interface {
@@ -21,5 +26,6 @@ func NewUI() *UI {
 	return &UI{
 		Authorization: NewUIAuthorizationBrowser(),
 		Film:				   NewUIFilmBrowser(),
+		Index:				 NewUIIndexBrowser(),
 	}
 }

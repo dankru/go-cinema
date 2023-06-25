@@ -9,6 +9,7 @@ type Authorization interface {
 	CreateUser(user cinema.User) (int, error)
 	GenerateToken(username, password string) (string, error)
 	ParseToken(token string) (int, error)
+	GetUserById(id int) (cinema.User, error)
 }
 
 type Film interface {

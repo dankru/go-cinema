@@ -75,3 +75,7 @@ func generatePasswordHash(password string) string {
 
 	return fmt.Sprintf("%x", hash.Sum([]byte(salt )))
 }
+
+func (s *AuthService) GetUserById(id int) (cinema.User, error) {
+	return s.repo.GetUserById(id)
+}

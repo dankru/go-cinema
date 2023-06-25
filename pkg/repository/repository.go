@@ -8,6 +8,7 @@ import (
 type Authorization interface {
 	CreateUser(user cinema.User) (int, error)
 	GetUser(username, password string) (cinema.User, error)
+	GetUserById(id int) (cinema.User, error)
 }
 
 type Film interface {

@@ -1,6 +1,8 @@
 package repository
 
 import (
+	"database/sql"
+	"errors"
 	"fmt"
 	"strings"
 
@@ -16,25 +18,21 @@ func NewFilmPostgres(db *sqlx.DB) *FilmPostgres {
 }
 
 func (r *FilmPostgres) Create(film cinema.Film) (int, error) {
+	// transaction for later when rating implemented
 	tx, err := r.db.Begin()
 	if err != nil {
 		return 0, err
 	}
 	var id int
-	createFilmQuery := fmt.Sprintf("INSERT INTO %s (title, description) VALUES ($1, $2) RETURNING id", FilmsTable)
-	row := tx.QueryRow(createFilmQuery, film.Title, film.Description)
+
+	createFilmQuery := fmt.Sprintf(`INSERT INTO %s (title, description, image, video) VALUES ($1, $2, $3, $4) 
+	RETURNING id`, FilmsTable)
+
+	row := tx.QueryRow(createFilmQuery, film.Title, film.Description, film.Image, film.Video )
 	if err := row.Scan(&id); err != nil {
 		tx.Rollback()
 		return 0, err
 	}
-
-	
-	// createFilmContentQuery := fmt.Sprintf("INSERT INTO %s (Image, list_id) VALUES ($1, $2)", FilmContentTable)
-	// _, err = tx.Exec(createFilmContentQuery, userId, id)
-	// if err != nil {
-	// 	tx.Rollback()
-	// 	return 0, err
-	// }
 
 	return id, tx.Commit()
 }
@@ -42,7 +40,7 @@ func (r *FilmPostgres) Create(film cinema.Film) (int, error) {
 func (r *FilmPostgres) GetAll() ([]cinema.Film, error) {
 	var films []cinema.Film
 
-	query := fmt.Sprintf("SELECT id, title, description FROM %s", FilmsTable)
+	query := fmt.Sprintf("SELECT id, title, description, image, video FROM %s ORDER BY id desc", FilmsTable)
 	err := r.db.Select(&films, query)
 
 	return films, err
@@ -51,7 +49,7 @@ func (r *FilmPostgres) GetAll() ([]cinema.Film, error) {
 func (r *FilmPostgres) GetById(filmId int) (cinema.Film, error) {
 	var film cinema.Film
 
-	query := fmt.Sprintf(`SELECT id, title, description FROM %s WHERE id = $1`, FilmsTable)
+	query := fmt.Sprintf(`SELECT id, title, description, image, video FROM %s WHERE id = $1`, FilmsTable)
 	err := r.db.Get(&film, query, filmId)
 
 	return film, err
@@ -74,13 +72,34 @@ func (r *FilmPostgres) Update(filmId int, input cinema.UpdateFilmInput) error {
 		argId++
 	}
 
+	if input.Image != nil {
+		setValues = append(setValues, fmt.Sprintf("image=$%d", argId))
+		args = append(args, *input.Image)
+		argId++
+	}
+
+	if input.Video != nil {
+		setValues = append(setValues, fmt.Sprintf("video=$%d", argId))
+		args = append(args, *input.Video)
+		argId++
+	}
+
 	setQuery := strings.Join(setValues, ", ")
 
-	query := fmt.Sprintf("UPDATE %s SET %s WHERE id = $%d",
-		FilmsTable, setQuery,  argId)
+	updateFilmQuery := fmt.Sprintf("UPDATE %s SET %s WHERE id = $%d",	FilmsTable, setQuery,  argId)
 	args = append(args, filmId)
 
-	_, err := r.db.Exec(query, args...)
+
+
+	row, err := r.db.Exec(updateFilmQuery, args...)
+	if err != nil {
+		return err
+	}
+	count, err := CountRowsAffected(row)
+	if count == 0 {
+		return errors.New("no rows affected")
+	}
+	
 	return err
 }
 
@@ -89,4 +108,12 @@ func (r *FilmPostgres) Delete(filmId int) error {
 	_, err := r.db.Exec(query, filmId)
 
 	return err
+}
+
+func CountRowsAffected(row sql.Result) (int, error){
+	affectedRowsCount, err := row.RowsAffected()
+	if err != nil {
+		return 0, err
+	}
+	return int(affectedRowsCount), err
 }

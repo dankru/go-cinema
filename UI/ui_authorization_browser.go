@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/sirupsen/logrus"
 )
 
 type UIAuthorizationBrowser struct {
@@ -18,5 +19,9 @@ func (u *UIAuthorizationBrowser) GetAuthorizationPage(c *gin.Context) {
 }
 
 func (u *UIAuthorizationBrowser) GetAccountPage(c *gin.Context) {
-	c.HTML(http.StatusOK, "account.html", gin.H{})
+	User, ok := c.Get("User")
+	if !ok {
+		logrus.Error("Failed to load userData for UI")
+	}
+	c.HTML(http.StatusOK, "account.html", gin.H{"user": User})
 }
