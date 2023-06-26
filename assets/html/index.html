@@ -1,0 +1,48 @@
+{{template "_head.html"}}
+<body>
+{{template "_header.html"}}
+  <div class="main-block">
+    <div class="main-block__container _container">
+      <div class="main-block__card card">
+        <div class="card__logo">
+          <a href="#" class="card__logo">
+          </a>
+        </div>
+        <div class="card__title title">Кинотеатр для людей</div>
+        <div class="card__subtitle subtitle">Кинотеатр, в котором хочется смотреть кино</div>
+        <div class="card__buttons">
+          <a href="/api/films" class="card__button button">Фильмы</a>
+          <!-- <a href="http://localhost:3001/" class="card__button button">Показы</a> -->
+        </div>
+      </div>
+      <div class="main-block__image img">
+        <picture
+          ><source srcset="/img/webp/hall1.webp" type="image/webp" />
+          <img src="/img/hall1.jpg" alt="hall1" height="520px" width="1010px"
+        /></picture>
+      </div>
+    </div>
+  </div>
+
+  <div class="slider-films">
+    <div class="slider-films__container _container">
+      <div class="slider-films__title title">Фильмы</div>
+      <div class="slider-films__slider slider">
+        {{ range $i, $e := .data }}
+        {{if gt 6 $i}}
+        <a href="/api/films/{{$e.Id}}" class="slider-films__item">
+          <img src="../img/cover/{{$e.Image}}" alt="" height="400px" width="300px" />
+        </a>
+        {{else}}
+        {{end}}
+        {{end}}
+      </div>
+    </div>
+  </div>
+  {{template "_footer.html"}}
+  <script src="https://code.jquery.com/jquery-3.6.1.min.js?_v=20230131223127"></script>
+  <script
+    type="text/javascript"
+    src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+  <script src="/js/app.js"></script>
+</body>
