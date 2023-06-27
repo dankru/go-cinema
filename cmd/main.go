@@ -1,7 +1,10 @@
 package main
 
 import (
+	"context"
 	"os"
+	"os/signal"
+	"syscall"
 
 	"github.com/dankru/go-cinema"
 	ui "github.com/dankru/go-cinema/UI"
@@ -43,8 +46,25 @@ func main() {
 	handlers := handler.NewHandler(services, userInterface)
 	
 	srv := new(cinema.Server)
-	if err := srv.Run(viper.GetString("port"), handlers.InitRoutes()); err != nil {
-		logrus.Fatal("error occured while running http server: %s", err.Error())
+	go func () {
+		if err := srv.Run(viper.GetString("port"), handlers.InitRoutes()); err != nil {
+			logrus.Fatal("error occured while running http server: %s", err.Error())
+		}
+	}()
+
+	logrus.Print("Todo-app started")
+
+	quit := make(chan os.Signal, 1)
+	signal.Notify(quit, syscall.SIGTERM, syscall.SIGINT)
+	<- quit
+
+	logrus.Print("Todo-app shutdown")
+	if err := srv.Shutdown(context.Background()); err != nil{
+		logrus.Error("Error occured on server shutdown: %s", err.Error())
+	}
+
+	if err := db.Close(); err != nil {
+		logrus.Errorf("Error occured on db connection close: %s", err.Error())
 	}
 }
 
