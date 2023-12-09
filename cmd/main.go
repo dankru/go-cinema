@@ -23,7 +23,7 @@ func main() {
 	if err := initConfig(); err != nil {
 		logrus.Fatalf("error initializing configs: %s", err.Error())
 	}
-	
+
 	if err := godotenv.Load(); err != nil {
 		logrus.Fatalf("error loading env variables: %s", err.Error())
 	}
@@ -44,22 +44,22 @@ func main() {
 	services := service.NewService(repos)
 	userInterface := ui.NewUI()
 	handlers := handler.NewHandler(services, userInterface)
-	
+
 	srv := new(cinema.Server)
-	go func () {
+	go func() {
 		if err := srv.Run(viper.GetString("port"), handlers.InitRoutes()); err != nil {
 			logrus.Fatal("error occured while running http server: %s", err.Error())
 		}
 	}()
 
-	logrus.Print("Todo-app started")
+	logrus.Print("cinema-app started")
 
 	quit := make(chan os.Signal, 1)
 	signal.Notify(quit, syscall.SIGTERM, syscall.SIGINT)
-	<- quit
+	<-quit
 
-	logrus.Print("Todo-app shutdown")
-	if err := srv.Shutdown(context.Background()); err != nil{
+	logrus.Print("cinema-app shutdown")
+	if err := srv.Shutdown(context.Background()); err != nil {
 		logrus.Error("Error occured on server shutdown: %s", err.Error())
 	}
 
@@ -69,7 +69,7 @@ func main() {
 }
 
 func initConfig() error {
-	viper.AddConfigPath("configs")
+	viper.AddConfigPath("../configs")
 	viper.SetConfigName("config")
 	return viper.ReadInConfig()
 }
